@@ -3,7 +3,7 @@
   "name": "close",
   "title": "Close",
   "description": "Adds functionality to the Close CRM not available on web",
-  "icon": "command-icon.png",
+  "icon": "closelogogimppng.png",
   "author": "ADCAdams",
   "categories": [
     "Communication",
@@ -13,12 +13,22 @@
   "license": "MIT",
   "commands": [
     {
-      "name": "index",
-      "title": "Show List",
-      "description": "Template for showing a static list",
+      "name": "querySubmission",
+      "title": "Hello World3",
+      "description": "Template with a plain detail view",
       "mode": "view"
     }
   ],
+  "preferences": [
+    {
+      "name": "token",
+      "type": "password",
+      "required": true,
+      "title": "API Token",
+      "description": "Your Close API token. `api` scope for read and write operations, `read_api` when you just want to read only commands.",
+      "link": "https://app.close.com/settings/api/",
+      "placeholder": "Enter your Close API token."
+    }],
   "dependencies": {
     "@raycast/api": "^1.48.8"
   },
