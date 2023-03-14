@@ -4,7 +4,7 @@ import { Icon, List, LocalStorage,showToast, Toast, Form, ActionPanel, Action, p
 import { getLead, LeadResult,fetch,extractLeadIDs,extractLeads,giveLeadIDs } from "./close";
 import { updateOpportunities } from "./updateOpps";
 import { LeadExample } from "./LeadExample";
-import { ListView} from "./listView"
+import { NoteSubmission} from "./noteSubmission"
 
 interface Lead {
   name: string;
@@ -34,7 +34,7 @@ interface Values { //from the Form
     formNoteTextArea: string;
   }
 
-const MyExtension = () => {
+const QuerySubmission = () => {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [closeQuery, setCloseQuery] = useState<CloseQ>();
   const [newNote, setNewNote] = useState<NoteObj>()
@@ -103,7 +103,7 @@ const MyExtension = () => {
 if (successStatus !== undefined && newNote !== undefined && closeQuery !==undefined){
   const queryProps:CloseQ = closeQuery;
   const noteProps:NoteObj = newNote;
-  return <ListView formCloseQuery={queryProps} formNote={newNote} />;
+  return <NoteSubmission formCloseQuery={queryProps} formNote={newNote} />;
 }else{
 
 }
@@ -171,4 +171,4 @@ if (successStatus !== undefined && newNote !== undefined && closeQuery !==undefi
 
 
 }
-export default MyExtension;
+export default QuerySubmission;

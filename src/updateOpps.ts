@@ -1,7 +1,7 @@
 import { getPreferenceValues, getSelectedFinderItems } from "@raycast/api";
 import axios from "axios";
 import { sendUpdatedOpp } from "./close";
-import { CloseQ } from "./listView";
+import { CloseQ } from "./noteSubmission";
 
 
 

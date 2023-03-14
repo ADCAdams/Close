@@ -39,7 +39,7 @@ interface Values { //from the Form
     formNoteTextArea: string;
   }
 
-export const ListView = ({formCloseQuery}:ListProps,{formNote}:ListProps) => {
+export const NoteSubmission = ({formCloseQuery}:ListProps,{formNote}:ListProps) => {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [closeQuery, setCloseQuery] = useState<CloseQ>();
   const [newNote, setNewNote] = useState<NoteObj>()
@@ -123,4 +123,4 @@ export const ListView = ({formCloseQuery}:ListProps,{formNote}:ListProps) => {
   );
 
 }
-export default ListView;
+export default NoteSubmission;
