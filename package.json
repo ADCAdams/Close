@@ -14,7 +14,7 @@
   "commands": [
     {
       "name": "querySubmission",
-      "title": "Hello World3",
+      "title": "Close Opp Query",
       "description": "Template with a plain detail view",
       "mode": "view"
     }

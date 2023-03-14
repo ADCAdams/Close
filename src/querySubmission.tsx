@@ -62,7 +62,7 @@ const MyExtension = () => {
         const extractedLeads = await extractLeads(jQuery);
 
         let note = newNote?.note!
-        const newLeads = updateOpportunities(extractedLeads,note)
+        const newLeads = await updateOpportunities(extractedLeads,note)
         setLeads(newLeads);
           const newStatus:Success = {
             status:"Success!!!"};
@@ -96,22 +96,29 @@ const MyExtension = () => {
   //dependencies change, list will run again. nothing inside = init. pass it state variables, update state with input or submission
 // on click, put json into state closeQuery, has function for onSubmit to setState for closeQuery
   
-  // const leadListProps = leads;
-  // const leadExampleProps = leads[0];
-  // const queryProps:CloseQ = closeQuery?;
-  // const noteProps = newNote?;
+  const leadListProps = leads;
+  const leadExampleProps = leads[0];
 
+
+if (successStatus !== undefined && newNote !== undefined && closeQuery !==undefined){
+  const queryProps:CloseQ = closeQuery;
+  const noteProps:NoteObj = newNote;
+  return <ListView formCloseQuery={queryProps} formNote={newNote} />;
+}else{
+
+}
   return (
     <Form
     actions={
       <ActionPanel>
+        
+        <Action.SubmitForm title="Update Opportunities" onSubmit={handleSubmit} />
         {/* <Action.Push
           title={`View example Lead`}
           target={<ListView formCloseQuery={queryProps} formNote={newNote} />}
           icon={Icon.Document}
           onPush={handleSubmit}
         /> */}
-        <Action.SubmitForm title="Update Opportunities" onSubmit={handleSubmit} />
         
       </ActionPanel>
     }

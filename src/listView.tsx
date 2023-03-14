@@ -111,12 +111,8 @@ export const ListView = ({formCloseQuery}:ListProps,{formNote}:ListProps) => {
     //   </ActionPanel>
     // }
       searchBarPlaceholder="Search for a stock, Rakiah"
-      searchText={searchText}
-      onSearchTextChange={setSearchText}
-      throttle={true}
     >
       <List.Section
-            key="results"
             title={`${leads.length} Stock${leads.length > 1 ? "s" : ""} Found`}
           >
             {leads.map((result, i) => (

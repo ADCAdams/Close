@@ -141,9 +141,6 @@ export async function sendUpdatedOpp(lead:LeadResult){
     const res = await axios.put(apiUrl, data,{ headers})
     console.log('UPDATING AN OPP')
     console.log(res.statusText)
-    if(res.statusText == 'OK'){
-      return "Success!!!"
-    }
   } catch (e) {
     console.log(e);
   }

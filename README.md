@@ -1,4 +1,4 @@
-# Close
+# Close (Raycast Extension)
 
 Adds functionality to the Close CRM not available on web
 

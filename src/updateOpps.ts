@@ -39,12 +39,12 @@ var mm = String(today.getMonth() + 1);
 const todayD = mm + '.' + dd;
 
 
-export function updateOpportunities(leadsArr:LeadResult[],newNote:string){
+export async function updateOpportunities(leadsArr:LeadResult[],newNote:string){
     for (const item of leadsArr){
         const updatedNote = `${todayD} - ${newNote}\n ${item.opportunityNote}`
         item.opportunityNote = updatedNote;
         console.log(`NEW LEAD ${item}`)
-        sendUpdatedOpp(item);
+        await sendUpdatedOpp(item);
       }
       return leadsArr;
 }
