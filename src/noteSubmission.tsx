@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Icon, List, LocalStorage,showToast, Toast, Form, ActionPanel, Action, popToRoot, LaunchProps } from "@raycast/api";
 import { getLead, LeadResult,fetch,extractLeadIDs,extractLeads,giveLeadIDs } from "./close";
 import { updateOpportunities } from "./updateOpps";
-import { LeadExample } from "./LeadExample";
+import { LeadExample } from "./leadExample";
 
 interface Lead {
   name: string;
@@ -12,7 +12,7 @@ interface Lead {
   opportunityNote:string;
 }
 
-type ListProps = {
+type NoteProps = {
   leadArrProp: Lead[];
   formCloseQuery:CloseQ;
   //formNote:NoteObj;
@@ -39,7 +39,7 @@ interface Values { //from the Form
     formNoteTextArea: string;
   }
 
-export const NoteSubmission = ({leadArrProp}:ListProps, {formCloseQuery}:ListProps) => {
+export const NoteSubmission = ({leadArrProp}:NoteProps, {formCloseQuery}:NoteProps) => {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [closeQuery, setCloseQuery] = useState<CloseQ>();
   const [newNote, setNewNote] = useState<NoteObj>()
@@ -82,7 +82,6 @@ export const NoteSubmission = ({leadArrProp}:ListProps, {formCloseQuery}:ListPro
     } else {
       console.log('note undefined')
       setLeads(leadArrProp)
-      setCloseQuery(formCloseQuery);
     }
   }, [newNote]); //changes on submit
   
@@ -96,6 +95,12 @@ export const NoteSubmission = ({leadArrProp}:ListProps, {formCloseQuery}:ListPro
     setNewNote(uNote);
   }
 
+  var first:Boolean = true
+  if (successStatus !== undefined && newNote !==undefined && first == true){
+    const aLead:Lead = leads[0];
+    first = false;
+    return <LeadExample leadEx={aLead} />;
+  }
  
   return (
   <Form

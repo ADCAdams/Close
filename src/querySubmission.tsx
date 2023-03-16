@@ -3,7 +3,6 @@ import axios from 'axios';
 import { Icon, List, LocalStorage,showToast, Toast, Form, ActionPanel, Action, popToRoot, LaunchProps, getPreferenceValues, preferences } from "@raycast/api";
 import { getLead, LeadResult,fetch,extractLeadIDs,extractLeads,giveLeadIDs } from "./close";
 import { updateOpportunities } from "./updateOpps";
-import { LeadExample } from "./LeadExample";
 import { NoteSubmission} from "./noteSubmission"
 
 interface Lead {
@@ -101,8 +100,6 @@ if (successStatus !== undefined && closeQuery !==undefined && first == true){
   const leadProps:Lead[] = leads;
   first = false;
   return <NoteSubmission leadArrProp={leadProps} formCloseQuery={queryProps} />;
-}else{
-
 }
   return (
     <Form

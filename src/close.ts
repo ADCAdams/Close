@@ -97,7 +97,7 @@ export async function extractLeads(closeQObj:object) { //give list of LeadIDs an
 
   
 
-  export async function fetchLead(lead:CloseLead){
+  export async function fetchLead(lead: CloseLead | LeadResult){
   const apiUrl = `https://api.close.com/api/v1/lead/${lead.id}`;
   const data = {'lead_id':`${lead.id}`}
   const headers = {

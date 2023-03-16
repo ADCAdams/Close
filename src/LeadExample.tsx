@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Icon, List, Detail, LocalStorage, showToast, Toast, Form, ActionPanel, Action, popToRoot, LaunchProps } from "@raycast/api";
-import { getLead, LeadResult,fetch,extractLeadIDs,extractLeads,giveLeadIDs } from "./close";
+import { getLead, LeadResult,fetch,extractLeadIDs,extractLeads,giveLeadIDs,fetchLead } from "./close";
 import { updateOpportunities } from "./updateOpps";
 //import { getLeads } from "./future";
 
@@ -12,7 +12,7 @@ export interface Lead {
   opportunityNote:string;
 }
 type ExampleProps = {
-  lead: Lead;
+  leadEx: Lead;
 }
 
 interface closeLead {
@@ -32,43 +32,26 @@ interface Values { //from the Form
     formNoteTextArea: string;
   }
 
-export const LeadExample = ({lead}:ExampleProps) => {
+export const LeadExample = ({leadEx}:ExampleProps) => {
   const [aLeadExample, setLead] = useState<Lead>();
 
 
-  const freshExample:Lead = lead;
+  const freshExample:Lead = leadEx;
   
 
 
   useEffect(() => {
-    setLead(freshExample);
     console.log(freshExample)
-    // async function goFetch() { //grabs leadIDs from query
-    //     let jQuery = closeQuery?.query!;
-    //     const extractedLeadIDs = await giveLeadIDs(jQuery);
-    //     //assignLeadIDs(extractedLeads)
-    //   }
-
-    //   async function getLeads() { //gets an array of lead objects (also calls fetch)
-    //     let jQuery = closeQuery?.query!;
-    //     const extractedLeads = await extractLeads(jQuery);
-    //     let note = newNote?.note!
-    //     const newLeads = updateOpportunities(extractedLeads,note)
-    //     //assignLeadIDs(extractedLeads)
-    //     console.log(newLeads)
-    //   }
-
-
-    // if(closeQuery !== undefined){ //checks for first run or not
-    //   console.log('not undefined')
-    //     //goFetch();
-    //     getLeads();
-    //} 
+    async function getTheLead(){
+      const updatedLead = await fetchLead(freshExample);
+      setLead(updatedLead)
+    }
+    getTheLead();
   }, []); //changes on submit
   
 
   const md = `
- # ${aLeadExample?.name!}
+ # Lead Name: ${aLeadExample?.name!}
  ---
 - *Notes*: ${aLeadExample?.opportunityNote}
 `;
