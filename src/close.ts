@@ -44,7 +44,6 @@ export async function getLead(leadId: string) {
   try {
     const response = await axios.get(url, { headers });
     const leadName = await response.data.name
-    console.log(leadName)
     return leadName;
   } catch (error) {
     console.error(error);
@@ -88,7 +87,6 @@ export async function getOpportunityIDs(leads: CloseLead[]){
 export async function extractLeads(closeQObj:object) { //give list of LeadIDs and gets full Close Leads
   const xLeads:CloseLead[] = await fetch(closeQObj);
   const leads = [];
-  const opps:CloseOpportunity[] = [];
   for (const item of xLeads){
     const res = await fetchLead(item);
     const aLead:LeadResult = res;
@@ -116,6 +114,7 @@ export async function extractLeads(closeQObj:object) { //give list of LeadIDs an
       opportunityID:res.data.opportunities[0]['id'],
       opportunityNote:res.data.opportunities[0]['note']
     }
+    console.log(newLead.name)
     return newLead
   } catch (e) {
     console.log(e);

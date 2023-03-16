@@ -45,7 +45,6 @@ const QuerySubmission = () => {
   useEffect(() => {
 
     const preferences = getPreferenceValues();
-    console.log(preferences)
     // function assignLeadIDs(leads:closeLead[]){
     //     const extractedLeads = leads.map(lead => ({ id: lead.id }));
     //     setLeads(extractedLeads)
@@ -60,14 +59,16 @@ const QuerySubmission = () => {
       async function getLeads() { //gets an array of lead objects (also calls fetch)
         let jQuery = closeQuery?.query!;
         const extractedLeads = await extractLeads(jQuery);
-
-        let note = newNote?.note!
-        const newLeads = await updateOpportunities(extractedLeads,note)
-        setLeads(newLeads);
+        setLeads(extractedLeads);
+        console.log(`first lead is ${extractedLeads[0].name}`)
           const newStatus:Success = {
             status:"Success!!!"};
           setSuccessStatus(newStatus);
-        console.log(newLeads)
+
+        // let note = newNote?.note!
+        // const newLeads = await updateOpportunities(extractedLeads,note)
+        
+        // console.log(newLeads)
       }
 
       
@@ -75,35 +76,31 @@ const QuerySubmission = () => {
 
     if(closeQuery !== undefined){ //checks for first run or not
       console.log('not undefined')
-        //goFetch();
         getLeads();
+
     } 
   }, [closeQuery]); //changes on submit
   
   function handleSubmit(values: Values) {
     const uQuery:CloseQ = ({
         query: JSON.parse(values.formQueryTextArea)
-    }) 
-    console.log(values)
-    const uNote:NoteObj = ({
-        note: values.formNoteTextArea
     })
+    // const uNote:NoteObj = ({
+    //     note: values.formNoteTextArea
+    // })
     setCloseQuery(uQuery);
-    setNewNote(uNote);
   }
 
-  
-  //dependencies change, list will run again. nothing inside = init. pass it state variables, update state with input or submission
-// on click, put json into state closeQuery, has function for onSubmit to setState for closeQuery
-  
-  const leadListProps = leads;
-  const leadExampleProps = leads[0];
 
+var first:Boolean = true
 
-if (successStatus !== undefined && newNote !== undefined && closeQuery !==undefined){
+if (successStatus !== undefined && closeQuery !==undefined && first == true){
+  //console.log(`Success isssss  ${successStatus.status}`)
+  //console.log(leads)
   const queryProps:CloseQ = closeQuery;
-  const noteProps:NoteObj = newNote;
-  return <NoteSubmission formCloseQuery={queryProps} formNote={newNote} />;
+  const leadProps:Lead[] = leads;
+  first = false;
+  return <NoteSubmission leadArrProp={leadProps} formCloseQuery={queryProps} />;
 }else{
 
 }
@@ -112,7 +109,7 @@ if (successStatus !== undefined && newNote !== undefined && closeQuery !==undefi
     actions={
       <ActionPanel>
         
-        <Action.SubmitForm title="Update Opportunities" onSubmit={handleSubmit} />
+        <Action.SubmitForm title="Query Leads" onSubmit={handleSubmit} />
         {/* <Action.Push
           title={`View example Lead`}
           target={<ListView formCloseQuery={queryProps} formNote={newNote} />}
@@ -142,7 +139,7 @@ if (successStatus !== undefined && newNote !== undefined && closeQuery !==undefi
           // }
           // }}
       />
-      <Form.TextField
+      {/* <Form.TextField
           id="formNoteTextArea"
           title="New Opportunity Note"
           placeholder="Do NOT include the date"
@@ -161,7 +158,7 @@ if (successStatus !== undefined && newNote !== undefined && closeQuery !==undefi
           title={`${successStatus?.status}`}
           placeholder=""
           value={`${successStatus?.status}`}
-      />
+      /> */}
   </Form>
   );
 

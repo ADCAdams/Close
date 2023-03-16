@@ -13,9 +13,9 @@ interface Lead {
 }
 
 type ListProps = {
-  //leadArrProp: Lead[];
+  leadArrProp: Lead[];
   formCloseQuery:CloseQ;
-  formNote:NoteObj;
+  //formNote:NoteObj;
 }
 
 interface Success {
@@ -39,7 +39,7 @@ interface Values { //from the Form
     formNoteTextArea: string;
   }
 
-export const NoteSubmission = ({formCloseQuery}:ListProps,{formNote}:ListProps) => {
+export const NoteSubmission = ({leadArrProp}:ListProps, {formCloseQuery}:ListProps) => {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [closeQuery, setCloseQuery] = useState<CloseQ>();
   const [newNote, setNewNote] = useState<NoteObj>()
@@ -49,77 +49,130 @@ export const NoteSubmission = ({formCloseQuery}:ListProps,{formNote}:ListProps) 
 
   useEffect(() => {
     console.log("you made it!")
-    // setLeads(leadArrProp);
-    // console.log(leadArrProp)
-    // function assignLeadIDs(leads:closeLead[]){
-    //     const extractedLeads = leads.map(lead => ({ id: lead.id }));
-    //     setLeads(extractedLeads)
-    // }
+
 
     async function goFetch() { //grabs leadIDs from query
-        let jQuery = closeQuery?.query!;
-        const extractedLeadIDs = await giveLeadIDs(jQuery);
-        //assignLeadIDs(extractedLeads)
+
+        const extractedLeadIDs = await giveLeadIDs(formCloseQuery);
       }
 
       async function getLeads() { //gets an array of lead objects (also calls fetch)
-        let jQuery = closeQuery?.query!;
-        const extractedLeads = await extractLeads(jQuery);
+
+        const extractedLeads = await extractLeads(formCloseQuery);
+        setLeads(extractedLeads);
+      }
+      async function goUpdateOpps() { //gets an array of lead objects (also calls fetch)
 
         let note = newNote?.note!
-        const newLeads = updateOpportunities(extractedLeads,note)
+        const newLeads = await updateOpportunities(leads,note)
         setLeads(newLeads);
           const newStatus:Success = {
             status:"Success!!!"};
           setSuccessStatus(newStatus);
-        console.log(newLeads)
+
       }
 
       
 
 
-    if(closeQuery !== undefined){ //checks for first run or not
-      console.log('not undefined')
-        //goFetch();
-        getLeads();
-    } 
-  }, [closeQuery]); //changes on submit
+    if(newNote !== undefined){ //checks for first run or not
+      console.log('note not undefined')
+      goUpdateOpps();
+      
+    } else {
+      console.log('note undefined')
+      setLeads(leadArrProp)
+      setCloseQuery(formCloseQuery);
+    }
+  }, [newNote]); //changes on submit
   
   
-  function handleSubmit(values: string) {
-    const uQuery:CloseQ = ({
-        query: JSON.parse(values)
-    }) 
-    console.log(values)
-    // const uNote:NoteObj = ({
-    //     note: values.formNoteTextArea
-    // })
-    setCloseQuery(uQuery);
-    //setNewNote(uNote);
+  function handleSubmit(values: Values) {
+
+    const uNote:NoteObj = ({
+        note: values.formNoteTextArea
+    })
+
+    setNewNote(uNote);
   }
 
-  
-  //dependencies change, list will run again. nothing inside = init. pass it state variables, update state with input or submission
-// on click, put json into state closeQuery, has function for onSubmit to setState for closeQuery
-
-  const leadExampleProps = leads[0]
+ 
   return (
-    <List
-    // actions={
-    //   <ActionPanel>
-    //     <Action title="Select" onAction={() => {handleSubmit}} />
-    //   </ActionPanel>
-    // }
-      searchBarPlaceholder="Search for a stock, Rakiah"
-    >
-      <List.Section
-            title={`${leads.length} Stock${leads.length > 1 ? "s" : ""} Found`}
-          >
-            {leads.map((result, i) => (
-              <LeadExample key={`${result.name}${i}`} lead={result} />
-            ))}
-          </List.Section>
-    </List>
+  <Form
+    actions={
+      <ActionPanel>
+        
+        <Action.SubmitForm title="Update Opportunities" onSubmit={handleSubmit} />
+        
+      </ActionPanel>
+    }
+  >
+      <Form.TextField
+          id="formNoteTextArea"
+          title="New Opportunity Note"
+          placeholder="Do NOT include the date"
+          // error={}
+          // onChange={}
+          // onBlur={(event) => {
+          // if (event.target.value?.length == 0) {
+          //     setNameError("The field should't be empty!");
+          // } else {
+          //     dropNameErrorIfNeeded();
+          // }
+          // }}
+      />
+
+    <Form.TextArea
+          id="leadArea"
+          title="Leads from Close Query"
+          placeholder= {`lol `}
+          info = "Leads shown here came from the previous close Query"
+          value = {`${leads.map((result, i) => (
+                        result.name
+                    ))}`}
+          // error={}
+          // onChange={}
+          // onBlur={(event) => {
+          // if (event.target.value?.length == 0) {
+          //     setNameError("The field should't be empty!");
+          // } else {
+          //     dropNameErrorIfNeeded();
+          // }
+          // }}
+      />
+    <Form.TextField
+          id="successfulField"
+          title={`${successStatus?.status}`}
+          placeholder=""
+          value={`${successStatus?.status}`}
+      />
+    </Form>
+
+
+
+
+
+
+
+
+
+    // <List
+    // // actions={
+    // //   <ActionPanel>
+    // //     <Action title="Select" onAction={() => {handleSubmit}} />
+    // //   </ActionPanel>
+    // // }
+    //   searchBarPlaceholder="Search for a stock, Rakiah"
+    // >
+    //   <List.Section
+    //         title={`${leads.length} Stock${leads.length > 1 ? "s" : ""} Found`}
+    //       >
+    //         {leads.map((result, i) => (
+    //           <LeadExample key={`${result.name}${i}`} lead={result} />
+    //         ))}
+    //       </List.Section>
+    // </List>
+    
   );
 
 }
